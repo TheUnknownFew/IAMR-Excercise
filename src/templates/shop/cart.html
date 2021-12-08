@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block scripts %}
+<script type="text/javascript">
+    function onNewsletterClicked(btn) {
+        email_field = document.getElementById('customer_email');
+        email_field.disabled=!btn.checked;
+        email_field.required=!btn.checked;
+    }
+</script>
+{% endblock %}
+{% block header %}
+<h1>Cart</h1>
+{% endblock %}
+{% block content %}
+{% if bin_clicked is defined and bin_clicked is not none %}
+    <h2>Current Item</h2>
+    <form action="/add-cart" method="post">
+        {{ bin_clicked.product_name }}<br>
+        Price: {{ bin_clicked.unit_price }} {{ bin_clicked.price_code.value }}<br>
+        <label for="quantity">Quantity</label>
+        <input id="quantity" type="number" name="quantity">
+        <input id="submit" type="submit" value="Add">
+    </form>
+    <br>
+    <form action="/add-cart" method="post">
+        <input id="canceled" type="hidden" name="canceled">
+        <input id="cancel" type="submit" value="Cancel">
+    </form>
+    <hr>
+{% endif %}
+{% if cart is defined and cart is not none and cart|length > 0 %}
+    <h2>Items in Cart</h2>
+    {% for item in cart.values() %}
+        <dl>
+        <dt><strong>{{ item.item_bin.product_name }}</strong><br>
+        <dd><label>Price: {{ item.item_bin.unit_price }} {{ item.item_bin.price_code.value }}</label><br>
+        <dd><label>Quantity: {{ item.quantity }}</label><br>
+        <dd><label>Subtotal: {{ item.quantity * item.item_bin.unit_price }} {{ item.item_bin.price_code.value }}</label><br>
+        </dl>
+        <form action="/remove-cart" method="get">
+            <input type="hidden" name="bin_id" value="{{ item.item_bin.bin_id }}">
+            <input type="submit" value="Remove from Cart">
+        </form>
+    {% endfor %}
+    <br>
+    <strong>Total Price: {{ total_price }}</strong>
+    <br>
+    <form action="/checkout" method="post">
+        <label for="subscribe">Subscribe to Newsletter</label>
+        <input id="subscribe" type="checkbox" name="is_subscribed" onclick="onNewsletterClicked(this)" checked><br>
+        <input id="customer_email" placeholder="enter email" name="customer_email" type="email" required><br>
+        <input id="customer_name" placeholder="name" name="customer_name" type="text"><br>
+        <input type="submit" value="Checkout">
+    </form>
+{% else %}
+    <h2>No items in Cart</h2>
+{% endif %}
+{% endblock %}

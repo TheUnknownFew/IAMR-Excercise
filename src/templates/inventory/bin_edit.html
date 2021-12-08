@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Inventory</h1>
+{% endblock %}
+
+{% block content %}
+<form {% if not edit_mode %} action="/inventory/create" {% endif %} method="post">
+    <label for="product_name">Bin Product:</label>
+    <input type="text" name="product_name" id="product_name" {% if edit_mode %} value="{{ bin.product_name }}" {% endif %} required>
+    <br>
+    <label for="stock">Stock:</label>
+    <input type="number" name="stock" id="stock" {% if edit_mode %} value="{{ bin.stock }}" {% endif %} required>
+    <br>
+    <label for="unit_price">Price:</label>
+    <input type="number" name="unit_price" id="unit_price" {% if edit_mode %} value="{{ bin.unit_price }}" {% endif %} required>
+    <select id="price_code" name="price_code" required>
+        {% for code in price_codes %}
+        <option value="{{ code }}">{{ code }}</option>
+        {% endfor %}
+    </select>
+    <input type="hidden" id="bin_id" name="bin_id" {% if edit_mode %} value="{{ bin.bin_id }}" {% endif %}>
+    <input type="submit" {% if edit_mode %} value="Update" {% else %} value="Create" {% endif %}>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+# Data Helpers
+pydantic==1.8.2
+
+# Flask Framework
+click==8.0.3
+Flask==2.0.2
+itsdangerous==2.0.1
+Jinja2==3.0.3
+MarkupSafe==2.0.1
+Werkzeug==2.0.2
+
+# Flask Packages
+Flask-Login==0.5.0
+Flask-Migrate==3.1.0
+Flask-Script==2.0.6
+Flask-SQLAlchemy==2.5.1
+Flask-WTF==1.0.0
+Flask-User==1.0.2.2
+
+# Automated tests
+pytest==6.2.5
+pytest-cov==3.0.0

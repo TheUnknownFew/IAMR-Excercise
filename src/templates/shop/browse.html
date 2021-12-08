@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block header %}
+<h1>Shop</h1>
+{% endblock %}
+{% block content %}
+{% for vendor in shop %}
+    <h3>Shop From {{ vendor.vendor_name }}</h3>
+    {% for bin in vendor.bins %}
+        <form action="/" method="post">
+            <label>{{ bin.product_name }}</label>
+            <label>{{ bin.unit_price }} {{ bin.price_code.value }}</label>
+            <input type="hidden" name="bin_data" value="{{ bin.json_str }}">
+            <input type="submit" value="Add to Cart">
+        </form><br>
+    {% endfor %}
+{% endfor %}
+{% endblock %}

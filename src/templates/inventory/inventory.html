@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Inventory</h1>
+{% endblock %}
+
+{% block content %}
+{% if bins is not none %}
+<form action="/inventory/create" method="get">
+    <input type="submit" value="Create Bin">
+</form>
+{% endif %}
+{% if bins is none or bins|length == 0 %}
+<h1>No Bins to display.</h1>
+{% else %}
+    <h2>Hello {{ vendor.vendor_name }}</h2>
+    {% for bin in bins %}
+    <p>Bin product: {{ bin.product_name }}</p>
+    <p>Stock: {{ bin.stock }}</p>
+    <p>Price: {{ bin.unit_price }} {{ bin.price_code.value }}</p>
+    <form action="/inventory/edit" method="get">
+        <input type="hidden" name="bin_id" value="{{ bin.bin_id }}">
+        <input type="submit" value="Edit">
+    </form>
+    <form action="/inventory/remove" method="post">
+        <input type="hidden" name="bin_id" value="{{ bin.bin_id }}">
+        <input type="submit" value="Remove">
+    </form><br>
+    {% endfor %}
+{% endif %}
+{% endblock %}
